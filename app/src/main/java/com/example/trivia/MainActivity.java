@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button falseButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
+    private Button shareButton;
     private TextView currentscore;
     private TextView highscore;
     private int currentQuestionIndex = 0;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         falseButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
         prevButton.setOnClickListener(this);
+        shareButton=findViewById(R.id.share_btn);
 
         AudioAttributes audioAttributes=new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -118,7 +120,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkAnswer(false);
                 updateQuestion();
                 break;
+             case R.id.share_btn:
+                shareScore();
+                break;
         }
+
+    }
+     private void shareScore() {
+        String message="My Current Score: "+scorecount+"\n" + "My Highest Score: "+prefs.getHighScore();
+        Intent intent=new Intent(Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_SUBJECT,"I AM PLAYING TRIVIA");
+        intent.putExtra(Intent.EXTRA_TEXT,message);
+        startActivity(intent);
 
     }
 
